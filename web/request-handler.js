@@ -9,14 +9,12 @@ exports.handleRequest = function (req, res) {
   // var headers = ****get headers from http-helpers
 
   if(req.method === 'GET' && req.url === '/') {
-    fs.readFile('./public/index.html', function(err, data) {
+    fs.readFile(archive.paths.siteAssets + '/index.html', 'utf8', function(err, data) {
       console.log('data: ', data); // need a buffer or string
 
       res.writeHead(200, httpHelpers.headers);
-      res.write(data);
-      res.end();
-
-
+      // res.write(data);
+      res.end(data);
     })
 
     // req.on('data', function(data) {
