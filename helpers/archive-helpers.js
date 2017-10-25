@@ -1,4 +1,4 @@
-var fs = require('fs');
+ var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
 
@@ -39,3 +39,5 @@ exports.isUrlArchived = function(url, callback) {
 
 exports.downloadUrls = function(urls) {
 };
+
+
