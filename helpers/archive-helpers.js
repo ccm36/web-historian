@@ -51,7 +51,18 @@ exports.addUrlToList = function(url, callback) {
 };
 
 exports.isUrlArchived = function(url, callback) {
+  fs.existsSync(paths.list, 'url', (err) => {         // need to check: fs.exists us deprecated
+      if (err) throw err;
+      console.log('The url was appended to the sites.txt file');
 };
 
 exports.downloadUrls = function(urls) {
+    //  receive array of array of url addresses => save as an argument
+    //  each element uses GET request to read html of the address and address in the ./archives/sites as the filename   =>  where html document contents generated
+    //  if url sends statusCode 302 (redirect) to client side, try http.get again for value referring to response.headers.location
+
 };
+
+exports.addUrlToTempList = function(url, callback) {    //think we will need this helper function too
+    //  probably same as addUrlToList, just with different path   
+}
