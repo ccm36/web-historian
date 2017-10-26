@@ -9,15 +9,26 @@ exports.handleRequest = function (req, res) {
   // archive.readListOfUrls();
   // console.log(archive.readListOfUrls(function(data) {return data;}));
 
+        /*  PENDING IMPLEMENTAIONS
+              - check if input string already exists in sites.txt using:
+                archive.isUrlInList(function(inputString)
+                  - if TRUE:   return saved page (www.whatever.com) from the ./archives/sites folder
+                  - if FALSE:  add to sites.txt in the web directory
+              - saved sites should create a file and use the www.newSiteSaved.com naming convention
+        */
   if(req.method === 'GET' && req.url === '/') {
     fs.readFile(archive.paths.siteAssets + '/index.html', 'utf8', function(err, data) {
       res.writeHead(200, httpHelpers.headers);
+
+
 
       res.end(data);
     })
 
   }
-//   else if (req.method === 'POST' && req.url === '/') {
+  if(req.method === 'POST' && req.url === '/') {
+
+    }
 //     /*
 //
 //       if url is in the list

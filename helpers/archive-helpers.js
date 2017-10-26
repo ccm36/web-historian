@@ -12,7 +12,9 @@ var _ = require('underscore');
 exports.paths = {
   siteAssets: path.join(__dirname, '../web/public'),
   archivedSites: path.join(__dirname, '../archives/sites'),
-  list: path.join(__dirname, '../archives/sites.txt')
+  list: path.join(__dirname, '../archives/sites.txt'),          //archives folder
+  tempList: path.join(__dirname, '../web/archives/sites.txt')   //web folder  - temp
+
 };
 
 // Used for stubbing paths for tests, do not modify
@@ -30,15 +32,22 @@ exports.readListOfUrls = function(callback) {
       if (err) {
         throw error;
       } else {
-        return callback(data.toString());
+        var convertData = toArray(data);  //convert sites.txt into array
+        return callback(convertData);     //pass array into callback function
       }
     });
 };
 
+
 exports.isUrlInList = function(url, callback) {
+  var checkList = archive.readListOfUrls(callback);   //get site list
+  return checkList.indexOf('url') !== -1;             //return true if url is in the site list
 };
 
 exports.addUrlToList = function(url, callback) {
+  fs.appendFile(paths.list, 'url', (err) => {
+      if (err) throw err;
+      console.log('The url was appended to the sites.txt file');
 };
 
 exports.isUrlArchived = function(url, callback) {
