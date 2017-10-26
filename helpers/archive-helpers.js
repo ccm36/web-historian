@@ -57,29 +57,7 @@ exports.isUrlArchived = function(url, callback) {
 
 exports.downloadUrls = function(urls) {
   urls.forEach(function(url) {
-    request('http://' + url).pipe(fs.createWriteStream(exports.paths.archivedSites + url));
+    request('http://' + url).pipe(fs.createWriteStream(exports.paths.archivedSites + '/' + url));
   });
 
 };
-    //  each element uses GET request to read html of the url and urls in the ./archives/sites as the filename   =>  where html document contents generated
-
-
-
-    // send url to worker thread
-              // worker thread then
-                // sends GET request to url
-                // deals with chunks
-                // notifies when complete
-
-  // add new url to site.txt
-    // create new www.whatever.com file in .archives/sites folder
-
-    // respond to client request with new html downloaded
-  // })
-
-    //  if url sends statusCode 302 (redirect) to client side, try http.get again for value referring to response.headers.location
-
-
-// exports.addUrlToTempList = function(url, callback) {    //think we will need this helper function too
-//     //  probably same as addUrlToList, just with different path
-// };
