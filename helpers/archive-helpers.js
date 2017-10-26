@@ -13,7 +13,7 @@ exports.paths = {
   siteAssets: path.join(__dirname, '../web/public'),
   archivedSites: path.join(__dirname, '../archives/sites'),
   list: path.join(__dirname, '../archives/sites.txt'),          //archives folder
-  tempList: path.join(__dirname, '../web/archives/sites.txt')   //web folder  - temp
+  // tempList: path.join(__dirname, '../web/archives/sites.txt')   //web folder  - temp
 
 };
 
@@ -28,32 +28,38 @@ exports.initialize = function(pathsObj) {
 // modularize your code. Keep it clean!
 
 exports.readListOfUrls = function(callback) {
-  fs.readFile('../archives/sites.txt', 'utf8', (err, data) => {
+  fs.readFile(exports.paths.list, 'utf8', function(err, data){
       if (err) {
-        throw error;
+        throw err;
       } else {
-        var convertData = toArray(data);  //convert sites.txt into array
-        return callback(convertData);     //pass array into callback function
+        var convertData = data.split('\n');
+        return callback(convertData);
       }
     });
 };
 
-
 exports.isUrlInList = function(url, callback) {
-  var checkList = archive.readListOfUrls(callback);   //get site list
-  return checkList.indexOf('url') !== -1;             //return true if url is in the site list
+  var checkList = exports.readListOfUrls(function(urls) {
+    return callback(urls.includes(url));
+  });
+
 };
 
 exports.addUrlToList = function(url, callback) {
-  fs.appendFile(paths.list, 'url', (err) => {
-      if (err) throw err;
-      console.log('The url was appended to the sites.txt file');
+  fs.appendFile(exports.paths.list, url, function(err) {
+    if (err) {
+      throw err;
+    } else {
+      callback();
+    }
+  });
 };
 
 exports.isUrlArchived = function(url, callback) {
-  fs.existsSync(paths.list, 'url', (err) => {         // need to check: fs.exists us deprecated
-      if (err) throw err;
-      console.log('The url was appended to the sites.txt file');
+  // fs.existsSync(paths.list, url, (err) => {         // need to check: fs.exists us deprecated
+  //     if (err) throw err;
+  //     console.log('The url was appended to the sites.txt file');
+  //   }
 };
 
 exports.downloadUrls = function(urls) {
@@ -63,6 +69,6 @@ exports.downloadUrls = function(urls) {
 
 };
 
-exports.addUrlToTempList = function(url, callback) {    //think we will need this helper function too
-    //  probably same as addUrlToList, just with different path   
-}
+// exports.addUrlToTempList = function(url, callback) {    //think we will need this helper function too
+//     //  probably same as addUrlToList, just with different path
+// };

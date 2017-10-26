@@ -26,9 +26,9 @@ exports.handleRequest = function (req, res) {
     })
 
   }
-  if(req.method === 'POST' && req.url === '/') {
-
-    }
+  // if(req.method === 'POST' && req.url === '/') {
+  //
+  //   }
 //     /*
 //
 //       if url is in the list
