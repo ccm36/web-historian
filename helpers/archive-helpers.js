@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
+var request = require('request');
 
 exports.paths = {
   siteAssets: path.join(__dirname, '../web/public'),
@@ -32,7 +33,6 @@ exports.isUrlInList = function(url, callback) {
   var checkList = exports.readListOfUrls(function(urls) {
     return callback(urls.includes(url));
   });
-
 };
 
 exports.addUrlToList = function(url, callback) {
@@ -50,18 +50,35 @@ exports.isUrlArchived = function(url, callback) {
     if (err) {
       throw err;
     } else {
-      console.log('The url was appended to the sites.txt file');
       return callback(files.includes(url));
     }
   });
 };
 
 exports.downloadUrls = function(urls) {
-    //  receive array of array of url addresses => save as an argument
-    //  each element uses GET request to read html of the address and address in the ./archives/sites as the filename   =>  where html document contents generated
-    //  if url sends statusCode 302 (redirect) to client side, try http.get again for value referring to response.headers.location
+  urls.forEach(function(url) {
+    request('http://' + url).pipe(fs.createWriteStream(exports.paths.archivedSites + url));
+  });
 
 };
+    //  each element uses GET request to read html of the url and urls in the ./archives/sites as the filename   =>  where html document contents generated
+
+
+
+    // send url to worker thread
+              // worker thread then
+                // sends GET request to url
+                // deals with chunks
+                // notifies when complete
+
+  // add new url to site.txt
+    // create new www.whatever.com file in .archives/sites folder
+
+    // respond to client request with new html downloaded
+  // })
+
+    //  if url sends statusCode 302 (redirect) to client side, try http.get again for value referring to response.headers.location
+
 
 // exports.addUrlToTempList = function(url, callback) {    //think we will need this helper function too
 //     //  probably same as addUrlToList, just with different path
