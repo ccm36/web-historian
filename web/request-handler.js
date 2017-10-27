@@ -19,25 +19,25 @@ exports.handleRequest = function (req, res) {
     } else {
 
       archive.isUrlArchived(req.url, function(isTrue) {
+
         if(isTrue) {
           fs.readFile(archive.paths.archivedSites + '/' + req.url, 'utf8', function(err, data) {
             if(err) {throw err;}
             res.writeHead(200, httpHelpers.headers);
             res.end(data);
           });
+
         } else {
           fs.readFile(archive.paths.siteAssets + '/loading.html', 'utf8', function(err, data) {
             res.writeHead(404, httpHelpers.headers);
             res.end(data);
           });
         }
-
       });
-
     }
   } else if (req.method === 'POST') {
 
-    
+      
 
   } else {
     // res.writeHead(404, httpHelpers.headers);
